@@ -1,6 +1,6 @@
-from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
 from FluentSelenium.SeleniumExecutionContext import SeleniumExecutionContext
-from FluentSelenium.helpers.TestMethodDiscoveryHelper import TestMethodDiscoveryHelper
+from FluentSelenium.helpers.TestMethodDiscoveryHelper import \
+    TestMethodDiscoveryHelper
 import os
 import unittest
 
