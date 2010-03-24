@@ -4,9 +4,14 @@ class SeleniumExecutionContext:
     
     def __init__(self, host, port, browserStartCommand, url):
         self.selenium = selenium(host, port, browserStartCommand, url)
-        self.hasBeenInitialized = False
+        self.isInitialized = False
     
     def initialize(self): 
-        if not self.hasBeenInitialized:
+        if not self.isInitialized:
             self.selenium.start()
-            self.hasBeenInitialized = True
+            self.isInitialized = True
+    
+    def destroy(self):
+        if self.isInitialized:
+            self.selenium.stop()
+            self.isInitialized = False
