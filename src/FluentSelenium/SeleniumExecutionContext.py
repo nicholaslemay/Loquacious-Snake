@@ -3,7 +3,6 @@ from selenium import selenium
 class SeleniumExecutionContext:
     
     def __init__(self, host, port, browserStartCommand, url):
-        print (host, port, browserStartCommand, url)
         self.seleniumInstance = selenium(host, port, browserStartCommand, url)
         self.isInitialized = False
     
@@ -16,3 +15,6 @@ class SeleniumExecutionContext:
         if self.isInitialized:
             self.seleniumInstance.stop()
             self.isInitialized = False
+    
+    def __del__(self):
+        self.destroy()

@@ -20,4 +20,6 @@ class SeleniumDrivenUser:
             return getattr(x,name)
         else:
             raise UnknownMethodException("SeleniumDrivenUser does not support the " + name +  " method")
-        
+    
+    def and_then(self):
+        return self    

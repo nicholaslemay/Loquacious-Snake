@@ -37,7 +37,7 @@ class SeleniumExecutionContextExpectations(unittest.TestCase):
         
         selenium.__init__ = mockedConstructor
          
-        executionContext = SeleniumExecutionContext(self.host, self.port, self.browserStartCommand, self.url)
+        SeleniumExecutionContext(self.host, self.port, self.browserStartCommand, self.url)
          
         self.assertEqual(mockedConstructor.call_args,((self.host, self.port, self.browserStartCommand, self.url),{}), "Selenium called with incorrect arguments")
         

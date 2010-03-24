@@ -55,7 +55,8 @@ class SeleniumDriverUserExpectations(unittest.TestCase):
             raise Exception("unknownMethodCall should of raised an exception")
         except Exception, instance:
             pass
-            
+          
+    
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

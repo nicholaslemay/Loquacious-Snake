@@ -18,8 +18,8 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.seleniumExecutionContext.initialize()
        
     def tearDown(self):
-        self.seleniumExecutionContext.destroy()
-        
+        pass
+    
     @staticmethod
     def GetTestSuite():
         suite = unittest.TestSuite()
@@ -30,5 +30,12 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         action.goesToURL(self.testFileName)
         self.assertEquals(self.testFileName, self.seleniumExecutionContext.seleniumInstance.get_location())
-        
-        
+
+    def SeleniumDrivenUserShouldReturnItselfWhenCalledWithAndThenAndNoSpecificChainingElementHasBeenSpecified(self):
+        action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
+        self.assertEquals(action.andThen(),action)
+    
+    def SeleniumDrivenUserShouldReturnChainingElementWhenCalledWithAndThenAndASpecificChainingElementHasBeenSpecified(self):
+        action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
+        action.chainingElement = "chainingElement"
+        self.assertEquals(action.andThen(),"chainingElement")    
