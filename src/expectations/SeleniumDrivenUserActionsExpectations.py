@@ -1,9 +1,8 @@
+from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
 from FluentSelenium.SeleniumExecutionContext import SeleniumExecutionContext
 from FluentSelenium.helpers.TestMethodDiscoveryHelper import \
     TestMethodDiscoveryHelper
-from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
 from expectations.testWebsite.Locators import Locators
-import subprocess
 import os
 import unittest
 
@@ -19,8 +18,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.seleniumExecutionContext.initialize()
        
     def tearDown(self):
-        self.seleniumExecutionContext.destroy()
-    
+        pass
     @staticmethod
     def GetTestSuite():
         suite = unittest.TestSuite()

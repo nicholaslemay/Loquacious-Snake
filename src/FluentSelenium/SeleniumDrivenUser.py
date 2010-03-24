@@ -7,19 +7,15 @@ class UnknownMethodException(Exception):
 
 class SeleniumDrivenUser:
     
-    def __init__(self):
-        pass
-    
+    def __init__(self, seleniumExecutionContext):
+        self.actions = SeleniumDrivenUserActions(seleniumExecutionContext)
+        self.expectations = SeleniumDrivenUserExpectations(seleniumExecutionContext)
 
     def __getattr__(self, name):
-        if hasattr(SeleniumDrivenUserActions, name):
-            return getattr(SeleniumDrivenUserActions,name)
+        if hasattr(self.actions, name):
+            return getattr(self.actions, name)
             
-        elif hasattr(SeleniumDrivenUserExpectations, name):
-            x = SeleniumDrivenUserExpectations()
-            return getattr(x,name)
+        elif hasattr(self.expectations, name):
+            return getattr(self.expectations, name)
         else:
             raise UnknownMethodException("SeleniumDrivenUser does not support the " + name +  " method")
-    
-    def and_then(self):
-        return self    
