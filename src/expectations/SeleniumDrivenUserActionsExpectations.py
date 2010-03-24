@@ -2,6 +2,7 @@ from FluentSelenium.SeleniumExecutionContext import SeleniumExecutionContext
 from FluentSelenium.helpers.TestMethodDiscoveryHelper import \
     TestMethodDiscoveryHelper
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
+from expectations.testWebsite.Locators import Locators
 import subprocess
 import os
 import unittest
@@ -18,7 +19,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.seleniumExecutionContext.initialize()
        
     def tearDown(self):
-        pass
+        self.seleniumExecutionContext.destroy()
     
     @staticmethod
     def GetTestSuite():
@@ -31,11 +32,19 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         action.goesToURL(self.testFileName)
         self.assertEquals(self.testFileName, self.seleniumExecutionContext.seleniumInstance.get_location())
 
-    def SeleniumDrivenUserShouldReturnItselfWhenCalledWithAndThenAndNoSpecificChainingElementHasBeenSpecified(self):
+    def SeleniumDrivenUserActionsShouldReturnItselfWhenCalledWithAndThenAndNoSpecificChainingElementHasBeenSpecified(self):
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         self.assertEquals(action.andThen(),action)
     
-    def SeleniumDrivenUserShouldReturnChainingElementWhenCalledWithAndThenAndASpecificChainingElementHasBeenSpecified(self):
+    def SeleniumDrivenUserActionsShouldReturnChainingElementWhenCalledWithAndThenAndASpecificChainingElementHasBeenSpecified(self):
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         action.chainingElement = "chainingElement"
         self.assertEquals(action.andThen(),"chainingElement")    
+        
+    def SeleniumDrivenUserActionsShouldLeaveCheckboxClickedwhenAskedToclickOnIt(self):       
+        action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
+        action.goesToURL(self.testFileName) 
+        self.assertFalse(self.seleniumExecutionContext.seleniumInstance.is_checked(Locators.CHECKBOX))
+        action.clicks(Locators.CHECKBOX)
+        self.assertTrue(self.seleniumExecutionContext.seleniumInstance.is_checked(Locators.CHECKBOX))
+    

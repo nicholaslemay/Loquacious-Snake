@@ -12,3 +12,6 @@ class SeleniumDrivenUserActions:
     
     def andThen(self):
         return self.chainingElement
+    
+    def clicks(self, locator):
+        self.__getSeleniumInstance().click(locator)
