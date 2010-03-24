@@ -2,7 +2,10 @@ class SeleniumDrivenUserActions:
     
     def __init__(self, seleniumExecutionContext):
         self.seleniumExecutionContext = seleniumExecutionContext
-        self.selenium = seleniumExecutionContext.selenium
+      
     
-    def goesTo(self, url):
-        self.selenium.open(url)
+    def __getSeleniumInstance(self):
+        return self.seleniumExecutionContext.seleniumInstance
+    
+    def goesToURL(self, url):
+        self.__getSeleniumInstance().open(url)

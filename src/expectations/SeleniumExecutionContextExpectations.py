@@ -6,15 +6,22 @@ from selenium import selenium
 
 class SeleniumExecutionContextExpectations(unittest.TestCase):
 
+     
     def setUp(self):
-        self.host    = "localhost"
-        self.port    = "8080"
-        self.browserStartCommand = "*firefox"
-        self.url     = "http://localhost:8080"
+        self.originalSeleniumInit = selenium.__init__
+        self.originalSeleniumStart = selenium.start
+        self.originalSeleniumStop = selenium.stop
+        
+        self.host    = 'localhost'
+        self.port    = 4444
+        self.browserStartCommand = '*firefox'
+        self.url     = 'http://www.google.com/'
 
 
     def tearDown(self):
-        pass
+        selenium.__init__ = self.originalSeleniumInit  
+        selenium.start = self.originalSeleniumStart  
+        selenium.stop = self.originalSeleniumStop  
     
     @staticmethod
     def GetTestSuite():
@@ -24,8 +31,6 @@ class SeleniumExecutionContextExpectations(unittest.TestCase):
     
 
     def SeleniumExecutionContextShouldCreateASeleniumInstanceWithTheRightParameters(self):
-        
-
         
         mockedConstructor = Mock()
         mockedConstructor.return_value = None
@@ -71,7 +76,7 @@ class SeleniumExecutionContextExpectations(unittest.TestCase):
         executionContext.initialize() 
         
         self.assertEquals(2, mockedStart.call_count )
-        
+    
         
 if __name__ == "__main__":
     suite = SeleniumExecutionContextExpectations.GetTestSuite()
