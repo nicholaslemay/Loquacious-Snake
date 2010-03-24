@@ -9,7 +9,7 @@ import unittest
 class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
 
     def setUp(self):
-        self.server = subprocess.Popen("python -m SimpleHTTPServer 6666", shell=True)
+        self.server = subprocess.Popen("python -m SimpleHTTPServer 6666", shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         self.testFileName = "/testWebsite/seleniumTestPage.html"
         self.host    = 'localhost'
         self.port    = 4444
@@ -20,7 +20,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
        
     def tearDown(self):
         self.seleniumExecutionContext.destroy()
-        os.kill(self.server.pid, subprocess.signal.SIGKILL)
+        self.server.kill()
         
     @staticmethod
     def GetTestSuite():
@@ -32,3 +32,4 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         action.goesToURL(self.testFileName)
         self.assertEquals("http://localhost:6666/testWebsite/seleniumTestPage.html", self.seleniumExecutionContext.seleniumInstance.get_location())
+        
