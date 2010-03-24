@@ -9,8 +9,7 @@ import unittest
 class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
 
     def setUp(self):
-        self.server = subprocess.Popen("python -m SimpleHTTPServer 6666", shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        self.testFileName = "/testWebsite/seleniumTestPage.html"
+        self.testFileName = "file://" + os.path.dirname(__file__) +  "/testWebsite/seleniumTestPage.html"
         self.host    = 'localhost'
         self.port    = 4444
         self.browserStartCommand = '*firefox'
@@ -20,7 +19,6 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
        
     def tearDown(self):
         self.seleniumExecutionContext.destroy()
-        self.server.kill()
         
     @staticmethod
     def GetTestSuite():
@@ -31,5 +29,6 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
     def SeleniumDrivenUserActionsGoesToShouldBringTheUserToTheRightPage(self):        
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         action.goesToURL(self.testFileName)
-        self.assertEquals("http://localhost:6666/testWebsite/seleniumTestPage.html", self.seleniumExecutionContext.seleniumInstance.get_location())
+        self.assertEquals(self.testFileName, self.seleniumExecutionContext.seleniumInstance.get_location())
+        
         
