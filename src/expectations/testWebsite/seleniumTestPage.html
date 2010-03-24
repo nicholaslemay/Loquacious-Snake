@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>
+		  Insert title here
+		</title>
+		<script type="text/javascript" src="jquery-1.4.2.min.js"/>
+		<script type="text/javascript" src="jquery.sleep.js" />
+		<script type="text/javascript" src="prototype.js"/>
+
+	    <script type="text/javascript">
+		  jQuery(document).ready(function() {
+		    jQuery('#test_jQuery_link').click(function()
+		    {
+		      jQuery.active = 1;
+		      jQuery.sleep(5, function()
+		      {
+		        jQuery.active = 0;
+		        });
+		      }
+		      );
+		
+		      jQuery('#test_Prototype_link').click(function()
+		      {
+		        Ajax.activeRequestCount = 1;
+		        jQuery.sleep(5, function()
+		        {
+		          Ajax.activeRequestCount = 0;
+		          });
+		        }
+		        );
+		
+		        });
+        </script>
+    </head>
+    <body>
+          <span id="test_span">
+            Text
+          </span>
+          <br />
+          <label for='test_checkbox'>
+            Checkbox
+          </label>
+          <input name="test_checkbox" type="checkbox"/>
+          <br />
+          <label for='test_radio'>
+            Radio
+          </label>
+          <input name="test_radio" type="radio"/>
+          <br />
+
+          <label for="test_select">
+            Select
+          </label>
+          <select id="test_select">
+            <option>
+              Option 1
+            </option>
+            <option>
+              Option 2
+            </option>
+            <option>
+              Option 3
+            </option>
+          </select>
+          <br />
+          <label for="test_textfield">
+            Text field
+          </label>
+          <input type="text" />
+          <br />
+          <br />
+          <a id="test_jQuery_link" href="#" >
+            jQuery ajax Link
+          </a>
+          <br />
+          <a id="test_Prototype_link" href="#" >
+            Prototype ajax Link
+          </a>
+          <br />
+          <br />
+          <label for="test_input_text">
+          </label>
+          <input id="test_input_text" type="text" />
+    </body>
+</html>

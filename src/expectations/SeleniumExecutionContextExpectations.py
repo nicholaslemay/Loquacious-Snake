@@ -36,9 +36,8 @@ class SeleniumExecutionContextExpectations(unittest.TestCase):
          
         self.assertEqual(mockedConstructor.call_args,((host, port, browserStartCommand, url),{}), "Selenium called with incorrect arguments")
         
-
+        
     
-
 
 if __name__ == "__main__":
     suite = SeleniumExecutionContextExpectations.GetTestSuite()
