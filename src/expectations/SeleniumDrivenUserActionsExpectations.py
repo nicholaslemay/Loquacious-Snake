@@ -1,5 +1,5 @@
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
-from FluentSelenium.SeleniumExecutionContext import SeleniumExecutionContext
+from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
 from FluentSelenium.helpers.TestMethodDiscoveryHelper import \
     TestMethodDiscoveryHelper
 from expectations.testWebsite.Locators import Locators
@@ -8,23 +8,25 @@ import unittest
 
 class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
 
-    def setUp(self):
+    def __init__(self, methodName='runTest'): 
+        super(SeleniumDrivenUserActionsExpectations, self).__init__(methodName)
         self.testFileName = "file://" + os.path.dirname(__file__) +  "/testWebsite/seleniumTestPage.html"
         self.host    = 'localhost'
         self.port    = 4444
         self.browserStartCommand = '*firefox'
         self.url     = 'http://localhost:6666'
-        self.seleniumExecutionContext = SeleniumExecutionContext(self.host, self.port, self.browserStartCommand, self.url)
-        self.seleniumExecutionContext.initialize()
+        self.seleniumExecutionContext = SharedSeleniumExecutionContext(self.host, self.port, self.browserStartCommand, self.url)
+        self.seleniumExecutionContext.initialize()   
+    
+    def setUp(self):
+        pass
        
     def tearDown(self):
         pass
-    @staticmethod
-    def GetTestSuite():
-        suite = unittest.TestSuite()
-        suite.addTests(map(SeleniumDrivenUserActionsExpectations, TestMethodDiscoveryHelper.GetTestMethods(SeleniumDrivenUserActionsExpectations, "SeleniumDrivenUser")))
-        return suite 
     
+    def __del__(self):
+        self.seleniumExecutionContext.destroy()  
+            
     def SeleniumDrivenUserActionsGoesToShouldBringTheUserToTheRightPage(self):        
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         action.goesToURL(self.testFileName)

@@ -21,12 +21,6 @@ class SeleniumDriverUserExpectations(unittest.TestCase):
 
     def testName(self):
         pass
-
-    @staticmethod
-    def GetTestSuite():
-        suite = unittest.TestSuite()
-        suite.addTests(map(SeleniumDriverUserExpectations, TestMethodDiscoveryHelper.GetTestMethods(SeleniumDriverUserExpectations, "Selenium")))
-        return suite 
     
     def SeleniumDrivenUserShouldCallAppropriateActionMethodInExpectationWhenCalledWithAnAction(self):
    
