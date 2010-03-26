@@ -1,5 +1,4 @@
 from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
-from FluentSelenium.helpers.TestMethodDiscoveryHelper import TestMethodDiscoveryHelper
 import unittest
 from mock import Mock
 from selenium import selenium

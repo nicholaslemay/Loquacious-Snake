@@ -1,3 +1,5 @@
+from FluentSelenium.helpers.Decorators import chainable
+
 class SeleniumDrivenUserExpectationsException(Exception):
     pass
 
@@ -5,10 +7,12 @@ class SeleniumDrivenUserExpectations:
     
     def __init__(self, seleniumExecutionContext):
         self.seleniumExecutionContext = seleniumExecutionContext
-    
+        self.chainingElement = self
+        
     def __getSeleniumInstance(self):
         return self.seleniumExecutionContext.seleniumInstance
     
+    @chainable
     def shouldBeOnPage(self, page):
         currentLocation = self.__getSeleniumInstance().get_location()
         if currentLocation != page:

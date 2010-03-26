@@ -1,7 +1,5 @@
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
 from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
-from FluentSelenium.helpers.TestMethodDiscoveryHelper import \
-    TestMethodDiscoveryHelper
 from expectations.testWebsite.Locators import Locators
 import os
 import unittest

@@ -1,4 +1,3 @@
-from FluentSelenium.helpers.TestMethodDiscoveryHelper import TestMethodDiscoveryHelper
 from mock import Mock
 from FluentSelenium.SeleniumDrivenUser import SeleniumDrivenUser
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions

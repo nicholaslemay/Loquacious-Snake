@@ -1,3 +1,5 @@
+from FluentSelenium.helpers.Decorators import chainable
+
 class SeleniumDrivenUserActions:
     
     def __init__(self, seleniumExecutionContext):
@@ -7,11 +9,14 @@ class SeleniumDrivenUserActions:
     def __getSeleniumInstance(self):
         return self.seleniumExecutionContext.seleniumInstance
     
+    @chainable
     def goesToURL(self, url):
         self.__getSeleniumInstance().open(url)
-    
+        
+    @chainable
     def andThen(self):
         return self.chainingElement
     
+    @chainable
     def clicks(self, locator):
         self.__getSeleniumInstance().click(locator)

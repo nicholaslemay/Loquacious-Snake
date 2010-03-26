@@ -1,5 +1,4 @@
 from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
-from FluentSelenium.helpers.TestMethodDiscoveryHelper import TestMethodDiscoveryHelper
 from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations,\
     SeleniumDrivenUserExpectationsException
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
