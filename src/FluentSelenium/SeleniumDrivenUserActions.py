@@ -10,7 +10,7 @@ class SeleniumDrivenUserActions:
         return self.seleniumExecutionContext.seleniumInstance
     
     @chainable
-    def goesToURL(self, url):
+    def goesTo(self, url):
         self.__getSeleniumInstance().open(url)
         
     @chainable

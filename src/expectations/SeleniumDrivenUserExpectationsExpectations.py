@@ -39,7 +39,7 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
     def SeleniumDrivenUserExpectationsShouldBeOnPageShouldNotThrowExceptionWhenContextsCurrentLocationDoesMatchThePageWeExpect(self):
         expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
-        action.goesToURL( self.testFileName)
+        action.goesTo( self.testFileName)
         expectation.shouldBeOnPage(self.testFileName)
         
     

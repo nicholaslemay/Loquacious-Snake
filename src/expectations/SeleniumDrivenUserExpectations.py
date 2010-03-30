@@ -6,28 +6,25 @@ import unittest
 
 
 class SeleniumDriverUserExpectations(unittest.TestCase):
-
-    
     
     def setUp(self):
-        self.originalGoesToMethod = SeleniumDrivenUserActions.goesToURL
-        self.originalShouldBeOnPage = SeleniumDrivenUserExpectations.shouldBeOnPage
-
+        self.originalGoesToMethod = SeleniumDrivenUserActions.goesTo
+        self.originalShouldBeOnPage = SeleniumDrivenUserExpectations.shouldBeOnPage       
+        self.mockedContext = Mock(spec=["initialize"])
     def tearDown(self):
-        SeleniumDrivenUserActions.goesToURL = self.originalGoesToMethod  
+        SeleniumDrivenUserActions.goesTo = self.originalGoesToMethod  
         SeleniumDrivenUserExpectations.shouldBeOnPage = self.originalShouldBeOnPage  
 
-
-    def testName(self):
-        pass
     
     def SeleniumDrivenUserShouldCallAppropriateActionMethodInExpectationWhenCalledWithAnAction(self):
    
             mockedGoesToURL = Mock()
-            SeleniumDrivenUserActions.goesToURL = mockedGoesToURL
+            SeleniumDrivenUserActions.goesTo = mockedGoesToURL
             
-            bob = SeleniumDrivenUser(None)
-            bob.goesToURL("http://www.google.ca")
+            
+            
+            bob = SeleniumDrivenUser(self.mockedContext)
+            bob.goesTo("http://www.google.ca")
     
             self.assertTrue( mockedGoesToURL.called)
     
@@ -37,7 +34,7 @@ class SeleniumDriverUserExpectations(unittest.TestCase):
             SeleniumDrivenUserActions.goesTo = mockedGoesTo
             SeleniumDrivenUserExpectations.shouldBeOnPage = mockedShouldBeOnPage
             
-            bob = SeleniumDrivenUser(None)
+            bob = SeleniumDrivenUser(self.mockedContext)
             bob.goesTo("http://www.google.ca")
             bob.shouldBeOnPage("http://www.google.ca")
             self.assertTrue( mockedGoesTo.called)         
@@ -45,7 +42,7 @@ class SeleniumDriverUserExpectations(unittest.TestCase):
     def SeleniumDrivenUserShouldThrowAnExceptionWhenTheMethodIsUnkownToBothActionsAndExpectations(self):
        
         try:
-            bob = SeleniumDrivenUser(None)
+            bob = SeleniumDrivenUser(self.mockedContext)
             bob.unknownMethodCall()
             raise Exception("unknownMethodCall should of raised an exception")
         except Exception, instance:

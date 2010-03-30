@@ -27,7 +27,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
             
     def SeleniumDrivenUserActionsGoesToShouldBringTheUserToTheRightPage(self):        
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
-        action.goesToURL(self.testFileName)
+        action.goesTo(self.testFileName)
         self.assertEquals(self.testFileName, self.seleniumExecutionContext.seleniumInstance.get_location())
 
     def SeleniumDrivenUserActionsShouldReturnItselfWhenCalledWithAndThenAndNoSpecificChainingElementHasBeenSpecified(self):
@@ -41,7 +41,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         
     def SeleniumDrivenUserActionsShouldLeaveCheckboxClickedwhenAskedToclickOnIt(self):       
         action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
-        action.goesToURL(self.testFileName) 
+        action.goesTo(self.testFileName) 
         self.assertFalse(self.seleniumExecutionContext.seleniumInstance.is_checked(Locators.CHECKBOX))
         action.clicks(Locators.CHECKBOX)
         self.assertTrue(self.seleniumExecutionContext.seleniumInstance.is_checked(Locators.CHECKBOX))

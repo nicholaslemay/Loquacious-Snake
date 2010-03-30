@@ -7,6 +7,7 @@ class SeleniumDrivenUserExpectations:
     
     def __init__(self, seleniumExecutionContext):
         self.seleniumExecutionContext = seleniumExecutionContext
+        self.seleniumExecutionContext.initialize()
         self.chainingElement = self
         
     def __getSeleniumInstance(self):
