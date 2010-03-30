@@ -8,6 +8,7 @@ from expectations.SeleniumDrivenUserExpectationsExpectations import \
     SeleniumDrivenUserExpectationsExpectations
 import unittest
 
+
 if __name__ == '__main__':
     suite = unittest.TestSuite()
     suite.addTests(unittest.makeSuite(SeleniumDrivenUserExpectationsExpectations,prefix="SeleniumDrivenUserExpectationsShould"))
