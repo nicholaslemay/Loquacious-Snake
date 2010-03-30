@@ -20,3 +20,7 @@ class SeleniumDrivenUserActions:
     @chainable
     def clicks(self, locator):
         self.__getSeleniumInstance().click(locator)
+        
+    @chainable
+    def fillsOut(self, locator):
+        self.seleniumExecutionContext.setLastVisitedLocation(locator)

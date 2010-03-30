@@ -8,6 +8,7 @@ class SharedSeleniumExecutionContext:
     url = None
     seleniumInstance=None
     isInitialized=False
+    lastVisitedLocation=None
     
     def __init__(self, host, port, browserStartCommand, url):
         if SharedSeleniumExecutionContext.seleniumInstance == None:
@@ -39,6 +40,10 @@ class SharedSeleniumExecutionContext:
         self.url = url
         SharedSeleniumExecutionContext.url = url
         SharedSeleniumExecutionContext.seleniumInstance.browserURL = url
+        
+    def setLastVisitedLocation(self, location):
+        self.lastVisitedLocation = location
+        SharedSeleniumExecutionContext.lastVisitedLocation = location
         
     def initialize(self):         
         if not SharedSeleniumExecutionContext.isInitialized and self.seleniumInstance:

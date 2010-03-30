@@ -1,6 +1,7 @@
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
 from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
 from expectations.testWebsite.Locators import Locators
+from mock import Mock
 import os
 import unittest
 
@@ -15,7 +16,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.url     = 'http://localhost:6666'
         self.seleniumExecutionContext = SharedSeleniumExecutionContext(self.host, self.port, self.browserStartCommand, self.url)
         self.seleniumExecutionContext.initialize()   
-    
+        self.locator='//*[@id="Main"]'
     def setUp(self):
         pass
        
@@ -45,4 +46,14 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.assertFalse(self.seleniumExecutionContext.seleniumInstance.is_checked(Locators.CHECKBOX))
         action.clicks(Locators.CHECKBOX)
         self.assertTrue(self.seleniumExecutionContext.seleniumInstance.is_checked(Locators.CHECKBOX))
+    
+    def SeleniumDrivenUserActionsShouldUpdateLastVisitedLocationWhenCalledWithFillsOut(self):
+        action = SeleniumDrivenUserActions(self.seleniumExecutionContext) 
+        self.seleniumExecutionContext.setLastVisitedLocation = Mock()
+        action.fillsOut(self.locator)
+        
+        self.assertTrue(self.seleniumExecutionContext.setLastVisitedLocation.called)
+        
+        
+    
     
