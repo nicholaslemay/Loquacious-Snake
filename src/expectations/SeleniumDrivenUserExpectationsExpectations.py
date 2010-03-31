@@ -10,8 +10,7 @@ import unittest
 
 class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
 
-    def __init__(self, methodName='runTest'):
-        super(SeleniumDrivenUserExpectationsExpectations, self).__init__(methodName)
+    def setUp(self):
         self.testFileName = "file://" + os.path.dirname(__file__) +  "/testWebsite/seleniumTestPage.html"
         self.host    = 'localhost'
         self.port    = 4444
@@ -19,9 +18,8 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         self.url     = 'http://localhost:6666'
         self.seleniumExecutionContext = SharedSeleniumExecutionContext(self.host, self.port, self.browserStartCommand, self.url)
         self.seleniumExecutionContext.initialize()
-    
-    def setUp(self):
-        pass
+        action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
+        action.goesTo( self.testFileName)
 
     def tearDown(self):
         pass
@@ -39,8 +37,6 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
 
     def SeleniumDrivenUserExpectationsShouldBeOnPageShouldNotThrowExceptionWhenContextsCurrentLocationDoesMatchThePageWeExpect(self):
         expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
-        action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
-        action.goesTo( self.testFileName)
         expectation.shouldBeOnPage(self.testFileName)
         
     def SeleniumDrivenUserExpectationsShouldSeeShouldUpdateTheLastVisitedLocation(self):
@@ -58,7 +54,6 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
             raise Exception("Should see should raise exception when locator does not exist")
         except SeleniumDrivenUserExpectationsException:
             pass
-
     
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
