@@ -2,6 +2,8 @@ from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutio
 from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations,\
     SeleniumDrivenUserExpectationsException
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
+from expectations.testWebsite.Locators import Locators
+from mock import Mock
 import os
 import unittest
 
@@ -32,9 +34,8 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         try:
             expectation.shouldBeOnPage("http://www.websitethatdoesnotexist.ca")
             raise Exception("shouldBeOnPage should of raised exception when current location does not match expected page")
-        except (SeleniumDrivenUserExpectationsException, ), e:
+        except SeleniumDrivenUserExpectationsException:
             pass
-
 
     def SeleniumDrivenUserExpectationsShouldBeOnPageShouldNotThrowExceptionWhenContextsCurrentLocationDoesMatchThePageWeExpect(self):
         expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
@@ -42,6 +43,22 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         action.goesTo( self.testFileName)
         expectation.shouldBeOnPage(self.testFileName)
         
+    def SeleniumDrivenUserExpectationsShouldSeeShouldUpdateTheLastVisitedLocation(self):
+        self.seleniumExecutionContext.setLastVisitedLocation = Mock()
+        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        expectation.shouldSee(Locators.INPUT_TEXT)        
+        self.assertTrue(self.seleniumExecutionContext.setLastVisitedLocation.called)
+    
+    def SeleniumDrivenUserExpectationsShouldSeeShouldThrowAnExceptionWhenLocatorDoesNotExistOnPage(self):
+        self.seleniumExecutionContext.setLastVisitedLocation = Mock()
+        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+
+        try:
+            expectation.shouldSee("locator that does not exist")  
+            raise Exception("Should see should raise exception when locator does not exist")
+        except SeleniumDrivenUserExpectationsException:
+            pass
+
     
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

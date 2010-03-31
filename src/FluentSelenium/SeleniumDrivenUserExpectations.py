@@ -18,3 +18,9 @@ class SeleniumDrivenUserExpectations:
         currentLocation = self.__getSeleniumInstance().get_location()
         if currentLocation != page:
             raise SeleniumDrivenUserExpectationsException("Expected page " + page + "did not match current location " + currentLocation)
+    
+    @chainable
+    def shouldSee(self, locator):
+        if not self.__getSeleniumInstance().is_element_present(locator):
+            raise SeleniumDrivenUserExpectationsException(locator + " could not be found on page.")
+        self.seleniumExecutionContext.setLastVisitedLocation(locator)
