@@ -1,5 +1,8 @@
 from FluentSelenium.helpers.Decorators import chainable
 
+class SeleniumDrivenUserActionsException(Exception):
+    pass
+
 class SeleniumDrivenUserActions:
     
     def __init__(self, seleniumExecutionContext):
@@ -24,3 +27,9 @@ class SeleniumDrivenUserActions:
     @chainable
     def fillsOut(self, locator):
         self.seleniumExecutionContext.setLastVisitedLocation(locator)
+    
+    @chainable
+    def withThis(self, filling):
+        if self.seleniumExecutionContext.lastVisitedLocation is None:
+            raise SeleniumDrivenUserActionsException("Nowhere to type. Specify where to type with fillsOut.")
+        self.__getSeleniumInstance().type(self.seleniumExecutionContext.lastVisitedLocation, filling)

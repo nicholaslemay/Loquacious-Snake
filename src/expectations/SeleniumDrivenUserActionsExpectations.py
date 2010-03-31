@@ -1,4 +1,5 @@
-from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
+from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions,\
+    SeleniumDrivenUserActionsException
 from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
 from expectations.testWebsite.Locators import Locators
 from mock import Mock
@@ -54,6 +55,20 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         
         self.assertTrue(self.seleniumExecutionContext.setLastVisitedLocation.called)
         
+    def SeleniumDrivenUserActionsShouldThrowExceptionWhenWithThisIsCalledAndNoPreviousLocationWasSelected(self):
+        action = SeleniumDrivenUserActions(self.seleniumExecutionContext) 
         
+        try:
+            action.withThis("Text")
+            raise Exception("withThis should fail when no location was previously selected")
+        except (SeleniumDrivenUserActionsException, ), e:
+            pass
+        
+    def SeleniumDrivenUserActionsShouldFillOutTextBoxProperlyWhenItIsTheSelectedLocation(self):
+        textToType = "This rocks!"
+        action = SeleniumDrivenUserActions(self.seleniumExecutionContext) 
+        action.goesTo(self.testFileName).fillsOut(Locators.INPUT_TEXT).withThis(textToType)
+        self.assertEquals(self.seleniumExecutionContext.seleniumInstance.get_value(Locators.INPUT_TEXT), textToType)
+    
     
     

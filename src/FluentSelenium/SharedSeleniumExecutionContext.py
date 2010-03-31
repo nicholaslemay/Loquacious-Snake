@@ -19,7 +19,7 @@ class SharedSeleniumExecutionContext:
         self.setPort(port)
         self.setURL(url)
         self.setHost(host)
-
+        self.setLastVisitedLocation(None)
         
     def setPort(self, port):
         self.port = port
