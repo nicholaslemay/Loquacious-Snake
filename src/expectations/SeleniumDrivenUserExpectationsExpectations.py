@@ -4,6 +4,7 @@ from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpe
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
 from expectations.testWebsite.Locators import Locators
 from mock import Mock
+from FluentSelenium.helpers.Decorators import LocatorNotFoundException
 import os
 import unittest
 
@@ -52,7 +53,7 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         try:
             expectation.shouldSee("locator that does not exist")  
             raise Exception("Should see should raise exception when locator does not exist")
-        except SeleniumDrivenUserExpectationsException:
+        except LocatorNotFoundException:
             pass
     
     def SeleniumDrivenUserExpectationsShouldNotSeeShouldUpdateTheLastVisitedLocationToNone(self):
@@ -70,6 +71,28 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
             raise Exception("shouldNotSee should raise exception when locator exists")
         except SeleniumDrivenUserExpectationsException:
             pass
+        
+        
+    def SeleniumDrivenUserExpectationsShouldRaiseExceptionWhenLocatorIsNotFoundWhenWithValueIsCalled(self):
+        self.seleniumExecutionContext.setLastVisitedLocation = Mock()
+        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        try:
+            expectation.withValue("Paul")
+            raise Exception("WithValue should raise exception when locator does exists")
+        except LocatorNotFoundException:
+            pass
+    
+    def SeleniumDrivenUserExpectationsShouldRaiseWhenItDoesNotContainSpecifiedValue(self):
+        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        
+        try:
+            expectation.shouldSee(Locators.INPUT_TEXT).withValue("Not the right value")
+            raise Exception("withValue should raise exception when values do not match")
+        except SeleniumDrivenUserExpectationsException:
+            pass
+        
+    
+    
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

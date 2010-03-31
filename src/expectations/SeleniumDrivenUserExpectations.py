@@ -21,8 +21,6 @@ class SeleniumDriverUserExpectations(unittest.TestCase):
             mockedGoesToURL = Mock()
             SeleniumDrivenUserActions.goesTo = mockedGoesToURL
             
-            
-            
             bob = SeleniumDrivenUser(self.mockedContext)
             bob.goesTo("http://www.google.ca")
     
