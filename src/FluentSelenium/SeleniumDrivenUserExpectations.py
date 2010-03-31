@@ -22,5 +22,11 @@ class SeleniumDrivenUserExpectations:
     @chainable
     def shouldSee(self, locator):
         if not self.__getSeleniumInstance().is_element_present(locator):
-            raise SeleniumDrivenUserExpectationsException(locator + " could not be found on page.")
+            raise SeleniumDrivenUserExpectationsException(locator + " could not be found on the current page.")
         self.seleniumExecutionContext.setLastVisitedLocation(locator)
+    
+    @chainable
+    def shouldNotSee(self, locator):
+        if  self.__getSeleniumInstance().is_element_present(locator):
+            raise SeleniumDrivenUserExpectationsException(locator + " was found on the current page.")
+        self.seleniumExecutionContext.setLastVisitedLocation(None)
