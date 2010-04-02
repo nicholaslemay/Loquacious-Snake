@@ -42,7 +42,14 @@ def resetsOptionBeingHandled(functionToExecute):
     def decorateFunctionWithOptionReset(*args,**kwargs):
         self = args[0]       
         returnValueFromFunctionToExecute = functionToExecute(*args,**kwargs)
-        self.seleniumExecutionContext.optionBeingHandled=None
+        self.seleniumExecutionContext.setOptionBeingHandled(None)
         return returnValueFromFunctionToExecute
     return decorateFunctionWithOptionReset
-    
+
+def resetsLastVisitedLocator(functionToExecute):
+    def decorateFunctionWithLocatorReset(*args,**kwargs):
+        self = args[0]       
+        returnValueFromFunctionToExecute = functionToExecute(*args,**kwargs)
+        self.seleniumExecutionContext.setLastVisitedLocation(None)
+        return returnValueFromFunctionToExecute
+    return decorateFunctionWithLocatorReset   

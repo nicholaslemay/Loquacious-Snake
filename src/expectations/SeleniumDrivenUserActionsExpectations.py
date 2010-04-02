@@ -54,7 +54,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         try:
             self.action.withThis("Text")
             self.fail("withThis should fail when no location was previously selected")
-        except (SeleniumDrivenUserActionsException, ), e:
+        except (LocatorNotFoundException, ), e:
             pass
         
     def SeleniumDrivenUserActionsShouldFillOutTextBoxProperlyWhenItIsTheSelectedLocation(self):

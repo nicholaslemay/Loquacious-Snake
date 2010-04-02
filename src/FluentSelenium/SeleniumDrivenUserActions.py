@@ -1,5 +1,6 @@
 from FluentSelenium.helpers.Decorators import chainable,\
-    requiresPresenceOfLocator
+    requiresPresenceOfLocator, requiresAPreviouslySelectedOption,\
+    resetsLastVisitedLocator, requiresAPreviouslyVisitedLocator
 
 class SeleniumDrivenUserActionsException(Exception):
     pass
@@ -41,9 +42,9 @@ class SeleniumDrivenUserActions:
         self.seleniumExecutionContext.setLastVisitedLocation(locator)
     
     @chainable
+    @requiresAPreviouslyVisitedLocator
+    @resetsLastVisitedLocator
     def withThis(self, filling):
-        if self.seleniumExecutionContext.lastVisitedLocation is None:
-            raise SeleniumDrivenUserActionsException("Nowhere to type. Specify where to type with fillsOut.")
         self.getSeleniumInstance().type(self.seleniumExecutionContext.lastVisitedLocation, filling)
     
     @chainable
@@ -52,10 +53,10 @@ class SeleniumDrivenUserActions:
     
     @chainable
     @requiresPresenceOfLocator 
+    @resetsLastVisitedLocator
     def comingFrom(self, locator):
         option = self.seleniumExecutionContext.optionBeingHandled
         if option not in self.getSeleniumInstance().get_select_options(locator):
             raise SeleniumDrivenUserActionsException(option + " option could not be found in " + locator )
         
         self.getSeleniumInstance().select(locator, option)
-        self.seleniumExecutionContext.lastVisitedLocation = None

@@ -1,5 +1,6 @@
 from FluentSelenium.helpers.Decorators import chainable, requiresPresenceOfLocator, requiresAPreviouslyVisitedLocator,\
-    requiresAPreviouslySelectedOption, resetsOptionBeingHandled
+    requiresAPreviouslySelectedOption, resetsOptionBeingHandled,\
+    resetsLastVisitedLocator
 
 class SeleniumDrivenUserExpectationsException(Exception):
     pass
@@ -15,6 +16,7 @@ class SeleniumDrivenUserExpectations:
         return self.seleniumExecutionContext.seleniumInstance
     
     @chainable
+    @resetsLastVisitedLocator
     def shouldBeOnPage(self, page):
         currentLocation = self.getSeleniumInstance().get_location()
         if currentLocation != page:
@@ -29,10 +31,11 @@ class SeleniumDrivenUserExpectations:
     def shouldNotSee(self, locator):
         if self.getSeleniumInstance().is_element_present(locator):
             raise SeleniumDrivenUserExpectationsException(locator + " was found on the current page.")
-        self.seleniumExecutionContext.setLastVisitedLocation(None)
+        
     
     @chainable
     @requiresAPreviouslyVisitedLocator
+    @resetsLastVisitedLocator
     def withValue(self, expectedValue): 
         currentValue = self.getSeleniumInstance().get_value(self.seleniumExecutionContext.lastVisitedLocation)
         if expectedValue != currentValue:
@@ -40,6 +43,7 @@ class SeleniumDrivenUserExpectations:
     
     @chainable
     @requiresAPreviouslyVisitedLocator
+    @resetsLastVisitedLocator
     def withText(self, expectedText):
         currentText = self.getSeleniumInstance().get_text((self.seleniumExecutionContext.lastVisitedLocation))
         if expectedText != currentText:
@@ -47,6 +51,7 @@ class SeleniumDrivenUserExpectations:
     
     @chainable
     @requiresAPreviouslyVisitedLocator
+    @resetsLastVisitedLocator
     def checked(self):
         location = self.seleniumExecutionContext.lastVisitedLocation
         if not self.getSeleniumInstance().is_checked(location):
@@ -54,6 +59,7 @@ class SeleniumDrivenUserExpectations:
     
     @chainable
     @requiresAPreviouslyVisitedLocator
+    @resetsLastVisitedLocator
     def unchecked(self):
         location = self.seleniumExecutionContext.lastVisitedLocation
         if self.getSeleniumInstance().is_checked(location):

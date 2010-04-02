@@ -53,12 +53,7 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
             self.fail("Should see should raise exception when locator does not exist")
         except LocatorNotFoundException:
             pass
-    
-    def SeleniumDrivenUserExpectationsShouldNotSeeShouldUpdateTheLastVisitedLocationToNone(self):
-        self.seleniumExecutionContext.setLastVisitedLocation = Mock()        
-        self.expectation.shouldNotSee("Locator of element that is not present")        
-        self.assertEquals(self.seleniumExecutionContext.setLastVisitedLocation.call_args,((None,),{}))
-        
+            
     def SeleniumDrivenUserExpectationsShouldNotSeeShouldRaiseExceptionWhenelementIsPresent(self):    
         self.seleniumExecutionContext.setLastVisitedLocation = Mock()
         
