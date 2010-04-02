@@ -10,6 +10,7 @@ class SharedSeleniumExecutionContext:
     isInitialized=False
     lastVisitedLocation=None
     optionBeingHandled=None
+    itemToDrag=None
     
     def __init__(self, host, port, browserStartCommand, url):
         if SharedSeleniumExecutionContext.seleniumInstance == None:
@@ -22,6 +23,7 @@ class SharedSeleniumExecutionContext:
         self.setHost(host)
         self.setLastVisitedLocation()
         self.setOptionBeingHandled()
+        self.setItemToDrag()
         
     def setPort(self, port):
         self.port = port
@@ -50,6 +52,10 @@ class SharedSeleniumExecutionContext:
     def setOptionBeingHandled(self, option=None):
         self.optionBeingHandled = option
         SharedSeleniumExecutionContext.optionBeingHandled = option
+    
+    def setItemToDrag(self, item=None):
+        self.itemToDrag = item
+        SharedSeleniumExecutionContext.itemToDrag = item
         
     def initialize(self):         
         if not SharedSeleniumExecutionContext.isInitialized and self.seleniumInstance:

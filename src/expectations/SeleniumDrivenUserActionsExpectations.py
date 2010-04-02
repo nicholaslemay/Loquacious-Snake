@@ -128,5 +128,23 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
             self.fail("waitsForPageToLoad should raise exception when it times out.")
         except SeleniumDrivenUserActionsException:
             pass
-         
-        
+    
+    def SeleniumDrivenUserActionsShouldUpdateItemToDragInContextWhenAskedToDrag(self):
+        itemToDrag = Locators.SPAN
+        self.action.drag(itemToDrag)
+        self.assertTrue(self.seleniumExecutionContext.itemToDrag is itemToDrag)
+    
+    def SeleniumDrivenUserActionsShouldThrowExceptionWhenDragIsCalledOnANonExistingItem(self):
+        itemToDrag = "fakeItem"
+        try:
+            self.action.drag(itemToDrag)
+            self.fail("Drag should throw an exception when specified item does not exist")
+        except LocatorNotFoundException:
+            pass
+    
+    def SeleniumDrivenUserActionsShouldThrowAnExceptionWhenAskedToDropAnNoItemIsSpecified(self):
+        try:
+            self.action.andDropsItOn(Locators.SELECT)
+            self.fail("andDropsItOn should throw an exception when item to drop was never specified")
+        except SeleniumDrivenUserActionsException:
+            pass  

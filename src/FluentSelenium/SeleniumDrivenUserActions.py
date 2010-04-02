@@ -67,3 +67,18 @@ class SeleniumDrivenUserActions:
             self.getSeleniumInstance().wait_for_page_to_load(timeout)
         except:
             raise SeleniumDrivenUserActionsException("Timeout reached")
+    
+    @chainable
+    @requiresPresenceOfLocator
+    def drag(self, locator):
+        self.seleniumExecutionContext.setItemToDrag(locator)
+    
+    @chainable
+    @requiresPresenceOfLocator
+    def andDropsItOn(self, locator):
+        if self.seleniumExecutionContext.itemToDrag is None:
+            raise SeleniumDrivenUserActionsException("Nothing to drag")
+        self.getSeleniumInstance().drag_and_drop(self.seleniumExecutionContext.itemToDrag, locator)
+        self.seleniumExecutionContext.setItemToDrag(None)
+        
+        
