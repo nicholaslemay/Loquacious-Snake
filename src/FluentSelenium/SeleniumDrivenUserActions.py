@@ -1,4 +1,5 @@
-from FluentSelenium.helpers.Decorators import chainable
+from FluentSelenium.helpers.Decorators import chainable,\
+    requiresPresenceOfLocator
 
 class SeleniumDrivenUserActionsException(Exception):
     pass
@@ -9,20 +10,21 @@ class SeleniumDrivenUserActions:
         self.seleniumExecutionContext = seleniumExecutionContext
         self.chainingElement = self
     
-    def __getSeleniumInstance(self):
+    def getSeleniumInstance(self):
         return self.seleniumExecutionContext.seleniumInstance
     
     @chainable
     def goesTo(self, url):
-        self.__getSeleniumInstance().open(url)
+        self.getSeleniumInstance().open(url)
         
     @chainable
     def andThen(self):
         return self.chainingElement
     
     @chainable
+    @requiresPresenceOfLocator
     def clicks(self, locator):
-        self.__getSeleniumInstance().click(locator)
+        self.getSeleniumInstance().click(locator)
         
     @chainable
     def fillsOut(self, locator):
@@ -32,4 +34,4 @@ class SeleniumDrivenUserActions:
     def withThis(self, filling):
         if self.seleniumExecutionContext.lastVisitedLocation is None:
             raise SeleniumDrivenUserActionsException("Nowhere to type. Specify where to type with fillsOut.")
-        self.__getSeleniumInstance().type(self.seleniumExecutionContext.lastVisitedLocation, filling)
+        self.getSeleniumInstance().type(self.seleniumExecutionContext.lastVisitedLocation, filling)
