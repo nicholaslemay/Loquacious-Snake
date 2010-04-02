@@ -19,8 +19,8 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         self.url     = 'http://localhost:6666'
         self.seleniumExecutionContext = SharedSeleniumExecutionContext(self.host, self.port, self.browserStartCommand, self.url)
         self.seleniumExecutionContext.initialize()
-        action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
-        action.goesTo( self.testFileName)
+        self.action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
+        self.action.goesTo( self.testFileName)
 
     def tearDown(self):
         pass
@@ -74,7 +74,6 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         
         
     def SeleniumDrivenUserExpectationsShouldRaiseExceptionWhenLocatorIsNotFoundWhenWithValueIsCalled(self):
-        self.seleniumExecutionContext.setLastVisitedLocation = Mock()
         expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
         try:
             expectation.withValue("Paul")
@@ -91,8 +90,34 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         except SeleniumDrivenUserExpectationsException:
             pass
         
+    def SeleniumDrivenUserExpectationsShouldReturnChainingElementWhenValueIsTheOneExpected(self):
+        textToType = "Awesome"
+        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        self.action.fillsOut(Locators.INPUT_TEXT).withThis(textToType)
+        self.assertTrue(expectation.chainingElement is expectation.shouldSee(Locators.INPUT_TEXT).withValue(textToType))
     
+    def SeleniumDrivenUserExpectationsShouldRaiseExceptionWhenLocatorIsNotFoundWhenWithTextIsCalled(self):
+        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        try:
+            expectation.withText("Text")
+            raise Exception("WithText should raise exception when locator does exists")
+        except LocatorNotFoundException:
+            pass
     
+    def SeleniumDrivenUserExpectationsShouldRaiseWhenItDoesNotContainSpecifiedText(self):
+        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        
+        try:
+            expectation.shouldSee(Locators.SPAN).withText("Text that is not there")
+            raise Exception("withText should raise exception when values do not match")
+        except SeleniumDrivenUserExpectationsException:
+            pass
+    
+    def SeleniumDrivenUserExpectationsShouldReturnChainingElementWhenTextIsTheOneExpected(self):
+        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        self.assertTrue(expectation.chainingElement is expectation.shouldSee(Locators.SPAN).withText("Text")) 
+        
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

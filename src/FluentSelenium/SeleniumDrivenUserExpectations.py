@@ -1,5 +1,4 @@
-from FluentSelenium.helpers.Decorators import chainable,\
-    requiresPresenceOfLocator, requiresAPreviouslyVisitedLocator
+from FluentSelenium.helpers.Decorators import chainable, requiresPresenceOfLocator, requiresAPreviouslyVisitedLocator
 
 class SeleniumDrivenUserExpectationsException(Exception):
     pass
@@ -36,4 +35,13 @@ class SeleniumDrivenUserExpectations:
     def withValue(self, expectedValue): 
         currentValue = self.getSeleniumInstance().get_value(self.seleniumExecutionContext.lastVisitedLocation)
         if expectedValue != currentValue:
-            raise SeleniumDrivenUserExpectationsException("Expected value " + expectedValue + "did not match current value " + currentValue)
+            raise SeleniumDrivenUserExpectationsException("Expected value :" + expectedValue + " did not match current value :" + currentValue)
+    
+    @chainable
+    @requiresAPreviouslyVisitedLocator
+    def withText(self, expectedText):
+        currentText = self.getSeleniumInstance().get_text((self.seleniumExecutionContext.lastVisitedLocation))
+        if expectedText != currentText:
+            raise SeleniumDrivenUserExpectationsException("Expected text : " + expectedText + " did not match current text : " + currentText)
+    
+    
