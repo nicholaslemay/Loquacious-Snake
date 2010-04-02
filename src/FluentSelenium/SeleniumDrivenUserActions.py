@@ -1,6 +1,7 @@
 from FluentSelenium.helpers.Decorators import chainable,\
     requiresPresenceOfLocator, requiresAPreviouslySelectedOption,\
     resetsLastVisitedLocator, requiresAPreviouslyVisitedLocator
+from FluentSelenium.helpers.JavascriptHelper import JavascriptHelper
 
 class SeleniumDrivenUserActionsException(Exception):
     pass
@@ -80,5 +81,17 @@ class SeleniumDrivenUserActions:
             raise SeleniumDrivenUserActionsException("Nothing to drag")
         self.getSeleniumInstance().drag_and_drop(self.seleniumExecutionContext.itemToDrag, locator)
         self.seleniumExecutionContext.setItemToDrag(None)
-        
-        
+    
+    @chainable
+    def waitsForAjax(self, library="jQuery", timeout=30000):
+        waitForAjaxCondition = {"jQuery":JavascriptHelper.GetjQueryWaitForAjaxCondition,
+                                "Prototype":JavascriptHelper.GetPrototypeWaitForAjaxCondition
+                               }
+     
+        try :  
+            condition = waitForAjaxCondition[library]()
+            self.getSeleniumInstance().wait_for_condition(condition,timeout)
+        except KeyError:
+            raise SeleniumDrivenUserActionsException("Specified library : " + library +" is not supported")
+    
+    

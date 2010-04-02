@@ -5,6 +5,8 @@ from expectations.testWebsite.Locators import Locators
 from mock import Mock
 from FluentSelenium.helpers.Decorators import LocatorNotFoundException
 from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations
+from FluentSelenium.helpers.JavascriptHelper import JavascriptHelper
+from selenium import selenium
 import os
 import unittest
 
@@ -22,10 +24,14 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         self.action.goesTo(self.testFileName)
         self.expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
-        
+        self.originaljquerymethod = JavascriptHelper.GetjQueryWaitForAjaxCondition
+        self.originalPrototypeMethod = JavascriptHelper.GetPrototypeWaitForAjaxCondition
+        self.originalwaitforcondition = selenium.wait_for_condition
     def tearDown(self):
-        pass
-    
+        JavascriptHelper.GetjQueryWaitForAjaxCondition = self.originaljquerymethod
+        JavascriptHelper.GetPrototypeWaitForAjaxCondition = self.originalPrototypeMethod
+        selenium.wait_for_condition = self.originalwaitforcondition
+        
     def __del__(self):
         self.seleniumExecutionContext.destroy()  
     
@@ -147,4 +153,27 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
             self.action.andDropsItOn(Locators.SELECT)
             self.fail("andDropsItOn should throw an exception when item to drop was never specified")
         except SeleniumDrivenUserActionsException:
-            pass  
+            pass
+   
+    def SeleniumDrivenUserActionsShouldThrowAnExceptionWhenAskedToWaitForAjaxWithANonSupportedLibrary(self):
+        try:
+            self.action.waitsForAjax("JSlicious")
+            self.fail("waitsForAjax should raise exception when library is no supported")
+        except SeleniumDrivenUserActionsException:
+            pass
+            
+    def SeleniumDrivenUserActionsShouldHaveWaitForAjaxShouldGetTheJQueryConditionWhenJQueryIsUsed(self):
+        mockedWaitForAjaxCondition = Mock()
+        mockedWaitForCondition = Mock()
+        selenium.wait_for_condition = mockedWaitForCondition
+        JavascriptHelper.GetjQueryWaitForAjaxCondition = mockedWaitForAjaxCondition
+        self.action.clicks(Locators.JQUERY_LINK).andThen().waitsForAjax("jQuery")
+        self.assertTrue(mockedWaitForAjaxCondition.called)
+        
+    def SeleniumDrivenUserActionsShouldHaveWaitForAjaxShouldGetThePrototypeConditionWhenPrototypeIsUsed(self):
+        mockedWaitForAjaxCondition = Mock()
+        mockedWaitForCondition = Mock()
+        selenium.wait_for_condition = mockedWaitForCondition
+        JavascriptHelper.GetPrototypeWaitForAjaxCondition = mockedWaitForAjaxCondition
+        self.action.clicks(Locators.PROTOTYPE_LINK).andThen().waitsForAjax("Prototype")
+        self.assertTrue(mockedWaitForAjaxCondition.called)
