@@ -123,6 +123,25 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         self.action.checks(Locators.CHECKBOX)
         self.assertTrue(self.expectation.shouldSee(Locators.CHECKBOX).checked() is self.expectation.chainingElement)
         
+        
+    def SeleniumDrivenUserExpectationsShouldThrowAnExceptionWhenUnCheckedIsCalledwithoutAPreviouslyVisitedLocator(self):
+        try:
+            self.expectation.unchecked()
+            self.fail("UnChecked should raise exception when locator does exists")
+        except LocatorNotFoundException:
+            pass    
+        
+    def SeleniumDrivenUserExpectationsShouldThrowAnExceptionWhenUnCheckedIsCalledOnAnItemThatIsChecked(self):
+        try:
+            self.action.checks(Locators.CHECKBOX)
+            self.expectation.shouldSee(Locators.CHECKBOX).unchecked()
+            self.fail("UnChecked should raise exception when locator is checked")
+        except SeleniumDrivenUserExpectationsException:
+            pass
+        
+    def SeleniumDrivenUserExpectationsShouldReturnChainingElementWhenUnCheckedSucceeds(self):
+        self.assertTrue(self.expectation.shouldSee(Locators.CHECKBOX).unchecked() is self.expectation.chainingElement)   
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

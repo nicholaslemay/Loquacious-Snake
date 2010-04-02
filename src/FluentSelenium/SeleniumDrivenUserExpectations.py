@@ -51,3 +51,9 @@ class SeleniumDrivenUserExpectations:
         if not self.getSeleniumInstance().is_checked(location):
             raise SeleniumDrivenUserExpectationsException(location + " is not checked.")
     
+    @chainable
+    @requiresAPreviouslyVisitedLocator
+    def unchecked(self):
+        location = self.seleniumExecutionContext.lastVisitedLocation
+        if self.getSeleniumInstance().is_checked(location):
+            raise SeleniumDrivenUserExpectationsException(location + " is checked.")
