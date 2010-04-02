@@ -14,7 +14,7 @@ class SeleniumDrivenUserActions:
         return self.seleniumExecutionContext.seleniumInstance
     
     @chainable
-    def goesTo(self, url):
+    def goesTo(self, url):        
         self.getSeleniumInstance().open(url)
         
     @chainable
@@ -25,7 +25,12 @@ class SeleniumDrivenUserActions:
     @requiresPresenceOfLocator
     def clicks(self, locator):
         self.getSeleniumInstance().click(locator)
-        
+    
+    @chainable
+    @requiresPresenceOfLocator 
+    def checks(self, locator):
+        self.getSeleniumInstance().check(locator)
+    
     @chainable
     def fillsOut(self, locator):
         self.seleniumExecutionContext.setLastVisitedLocation(locator)
