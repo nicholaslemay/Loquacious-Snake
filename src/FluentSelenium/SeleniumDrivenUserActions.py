@@ -32,6 +32,11 @@ class SeleniumDrivenUserActions:
         self.getSeleniumInstance().check(locator)
     
     @chainable
+    @requiresPresenceOfLocator 
+    def unchecks(self, locator):
+        self.getSeleniumInstance().uncheck(locator)
+    
+    @chainable
     def fillsOut(self, locator):
         self.seleniumExecutionContext.setLastVisitedLocation(locator)
     
@@ -40,3 +45,17 @@ class SeleniumDrivenUserActions:
         if self.seleniumExecutionContext.lastVisitedLocation is None:
             raise SeleniumDrivenUserActionsException("Nowhere to type. Specify where to type with fillsOut.")
         self.getSeleniumInstance().type(self.seleniumExecutionContext.lastVisitedLocation, filling)
+    
+    @chainable
+    def selects(self, option):
+        self.seleniumExecutionContext.setOptionBeingHandled(option)
+    
+    @chainable
+    @requiresPresenceOfLocator 
+    def comingFrom(self, locator):
+        option = self.seleniumExecutionContext.optionBeingHandled
+        if option not in self.getSeleniumInstance().get_select_options(locator):
+            raise SeleniumDrivenUserActionsException(option + " option could not be found in " + locator )
+        
+        self.getSeleniumInstance().select(locator, option)
+        self.seleniumExecutionContext.lastVisitedLocation = None

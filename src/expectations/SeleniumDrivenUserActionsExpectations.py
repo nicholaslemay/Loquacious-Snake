@@ -4,6 +4,7 @@ from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutio
 from expectations.testWebsite.Locators import Locators
 from mock import Mock
 from FluentSelenium.helpers.Decorators import LocatorNotFoundException
+from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations
 import os
 import unittest
 
@@ -20,7 +21,8 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.locator='//*[@id="Main"]'
         self.action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         self.action.goesTo(self.testFileName)
-       
+        self.expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        
     def tearDown(self):
         pass
     
@@ -71,3 +73,52 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.assertFalse(self.seleniumExecutionContext.seleniumInstance.is_checked(Locators.CHECKBOX))
         self.action.checks(Locators.CHECKBOX)
         self.assertTrue(self.seleniumExecutionContext.seleniumInstance.is_checked(Locators.CHECKBOX))
+        
+    def SeleniumDrivenUserActionsShouldRequireLocatorToExistInOrderToAttemptToUncheckIt(self):
+        try:
+            self.action.unchecks("unknown locator")
+            self.fail("Unchecks should raise exception when locator is not found")
+        except LocatorNotFoundException:
+            pass
+    
+    def SeleniumDrivenUserActionsShouldLeaveLocatorUnCheckedAfterAnUnCheck(self):
+        self.action.checks(Locators.CHECKBOX)
+        self.expectation.shouldSee(Locators.CHECKBOX).checked()
+        self.action.unchecks(Locators.CHECKBOX)
+        self.expectation.shouldSee(Locators.CHECKBOX).unchecked()
+        
+    def SeleniumDrivenUserActionsShouldUpdateOptionBeingHandledWhenCalledWithSelects(self):
+        myChoice = "hello"
+        self.action.selects(myChoice)
+        self.assertEquals(self.seleniumExecutionContext.optionBeingHandled, myChoice)
+        
+    def SeleniumDrivenUserActionsShouldReturnChainingElementwhenCalledWithSelects(self):
+        myChoice = "hello"
+        self.assertTrue(self.action.selects(myChoice) is self.action.chainingElement)
+    
+    def SeleniumDrivenUserActionsShouldReturnChainingElementwhenCalledWithComingFrom(self):
+        myChoice = Locators.OPTION1
+        self.assertTrue(self.action.selects(myChoice).comingFrom(Locators.SELECT) is self.action.chainingElement)
+        
+    def SeleniumDrivenUserActionsShouldRaiseExceptionWhenComingFromLocatorDoesNotExist(self):
+        myChoice = Locators.OPTION1
+        try:
+            self.action.selects(myChoice).comingFrom("unknown locator")
+            self.fail("comingFrom should raise exception when locator does not exist")
+        except LocatorNotFoundException:
+            pass
+    
+    def SeleniumDrivenUserActionsShouldRaiseExceptionWhenChoiceDoesNotExist(self):
+        myChoice = "hello"
+        try:
+            self.action.selects(myChoice).comingFrom(Locators.SELECT)
+            self.fail("comingFrom should raise exception when selection does not exist")
+        except SeleniumDrivenUserActionsException:
+            pass    
+        
+    def SeleniumDrivenUserActionsShouldSelectOptionWhenItIsAvaiable(self):
+        self.action.selects(Locators.OPTION1).comingFrom(Locators.SELECT)
+        self.expectation.shouldSee(Locators.SELECT).withOption(Locators.OPTION1).selected()
+        
+
+        

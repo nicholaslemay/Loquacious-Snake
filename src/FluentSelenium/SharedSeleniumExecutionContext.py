@@ -9,6 +9,7 @@ class SharedSeleniumExecutionContext:
     seleniumInstance=None
     isInitialized=False
     lastVisitedLocation=None
+    optionBeingHandled=None
     
     def __init__(self, host, port, browserStartCommand, url):
         if SharedSeleniumExecutionContext.seleniumInstance == None:
@@ -19,7 +20,8 @@ class SharedSeleniumExecutionContext:
         self.setPort(port)
         self.setURL(url)
         self.setHost(host)
-        self.setLastVisitedLocation(None)
+        self.setLastVisitedLocation()
+        self.setOptionBeingHandled()
         
     def setPort(self, port):
         self.port = port
@@ -41,15 +43,19 @@ class SharedSeleniumExecutionContext:
         SharedSeleniumExecutionContext.url = url
         SharedSeleniumExecutionContext.seleniumInstance.browserURL = url
         
-    def setLastVisitedLocation(self, location):
+    def setLastVisitedLocation(self, location=None):
         self.lastVisitedLocation = location
         SharedSeleniumExecutionContext.lastVisitedLocation = location
+    
+    def setOptionBeingHandled(self, option=None):
+        self.optionBeingHandled = option
+        SharedSeleniumExecutionContext.optionBeingHandled = option
         
     def initialize(self):         
         if not SharedSeleniumExecutionContext.isInitialized and self.seleniumInstance:
             self.seleniumInstance.start()
             SharedSeleniumExecutionContext.isInitialized = True
-    
+            
     def destroy(self):
         if SharedSeleniumExecutionContext.isInitialized:
             SharedSeleniumExecutionContext.resetAll()

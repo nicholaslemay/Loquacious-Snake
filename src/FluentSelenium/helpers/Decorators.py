@@ -1,6 +1,9 @@
 class LocatorNotFoundException(Exception):
     pass
 
+class OptionNotFoundException(Exception):
+    pass 
+
 def chainable(functionToExecute):
     def chain(*args,**kwargs):
         self = args[0]
@@ -25,3 +28,21 @@ def requiresAPreviouslyVisitedLocator(functionToExecute):
             raise LocatorNotFoundException( "No item was selected for this action to be done upon.")
         return functionToExecute(*args,**kwargs)
     return validatePriorToExecution
+
+def requiresAPreviouslySelectedOption(functionToExecute):
+    def validatePriorToExecution(*args,**kwargs):
+        self = args[0]
+        if self.seleniumExecutionContext.optionBeingHandled is None:
+            raise OptionNotFoundException( "No option was selected for this action to be done upon.")
+        return functionToExecute(*args,**kwargs)
+    return validatePriorToExecution
+
+
+def resetsOptionBeingHandled(functionToExecute):
+    def decorateFunctionWithOptionReset(*args,**kwargs):
+        self = args[0]       
+        returnValueFromFunctionToExecute = functionToExecute(*args,**kwargs)
+        self.seleniumExecutionContext.optionBeingHandled=None
+        return returnValueFromFunctionToExecute
+    return decorateFunctionWithOptionReset
+    

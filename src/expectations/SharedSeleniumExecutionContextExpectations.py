@@ -78,6 +78,7 @@ class SharedSeleniumExecutionContextExpectations(unittest.TestCase):
         
         executionContext.initialize() 
         
+        
         self.assertEquals(2, mockedStart.call_count )
     
         

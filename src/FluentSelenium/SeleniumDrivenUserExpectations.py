@@ -1,4 +1,5 @@
-from FluentSelenium.helpers.Decorators import chainable, requiresPresenceOfLocator, requiresAPreviouslyVisitedLocator
+from FluentSelenium.helpers.Decorators import chainable, requiresPresenceOfLocator, requiresAPreviouslyVisitedLocator,\
+    requiresAPreviouslySelectedOption, resetsOptionBeingHandled
 
 class SeleniumDrivenUserExpectationsException(Exception):
     pass
@@ -57,3 +58,19 @@ class SeleniumDrivenUserExpectations:
         location = self.seleniumExecutionContext.lastVisitedLocation
         if self.getSeleniumInstance().is_checked(location):
             raise SeleniumDrivenUserExpectationsException(location + " is checked.")
+    
+    @chainable
+    @requiresAPreviouslyVisitedLocator
+    def withOption(self, option):
+        self.seleniumExecutionContext.optionBeingHandled = option
+    
+    @chainable
+    @requiresAPreviouslyVisitedLocator
+    @requiresAPreviouslySelectedOption
+    @resetsOptionBeingHandled
+    def selected(self):
+        optionExpectedToBeSelected = self.seleniumExecutionContext.optionBeingHandled
+        currentlySelectedOption = self.getSeleniumInstance().get_selected_label(self.seleniumExecutionContext.lastVisitedLocation)
+        if not  currentlySelectedOption == optionExpectedToBeSelected:
+            raise SeleniumDrivenUserExpectationsException("Currently selected option : " + currentlySelectedOption + " did not match expected option :  " + optionExpectedToBeSelected)
+            

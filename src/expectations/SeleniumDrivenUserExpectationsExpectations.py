@@ -4,7 +4,8 @@ from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpe
 from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
 from expectations.testWebsite.Locators import Locators
 from mock import Mock
-from FluentSelenium.helpers.Decorators import LocatorNotFoundException
+from FluentSelenium.helpers.Decorators import LocatorNotFoundException,\
+    OptionNotFoundException
 import os
 import unittest
 
@@ -141,6 +142,44 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         
     def SeleniumDrivenUserExpectationsShouldReturnChainingElementWhenUnCheckedSucceeds(self):
         self.assertTrue(self.expectation.shouldSee(Locators.CHECKBOX).unchecked() is self.expectation.chainingElement)   
+        
+
+    
+    def SeleniumDrivenUserExpectationsShouldRaiseExceptionWhenWithOptionIsCalledWithNoVisitedLocation(self):
+        try:
+            self.expectation.withOption(Locators.OPTION3)
+            self.fail("withOption should raise exception when locator was not set before hand")
+        except LocatorNotFoundException:
+            pass    
+        
+    def SeleniumDrivenUserExpectationsShouldUpdateOptionBeingHandled(self):
+        self.expectation.shouldSee(Locators.SELECT).withOption(Locators.OPTION3)
+        self.assertEquals(self.seleniumExecutionContext.optionBeingHandled,Locators.OPTION3)
+  
+    def SeleniumDrivenUserExpectationsShouldRaiseExceptionWhenSelectedIsCalledWithNoVisitedLocation(self):
+        try:
+            self.expectation.selected()
+            self.fail("selected should raise exception when locator does exists")
+        except LocatorNotFoundException:
+            pass    
+        
+    def SeleniumDrivenUserExpectationsShouldRaiseAnExceptionWhenSelectedIsCalledWithNoOptionSpecified(self):
+        try:
+            self.expectation.shouldSee(Locators.SELECT).selected()
+            self.fail("selected should throw exception when no option was selected")
+        except OptionNotFoundException:
+            pass
+        
+    def SeleniumDrivenUserExpectationsShouldRaiseExceptionWhenSelectedIsCalledWithAnOptionThatIsNotSelected(self):
+        try:
+            self.expectation.shouldSee(Locators.SELECT).withOption(Locators.OPTION3).selected()
+            self.fail("selected should trhow an exception when the expected option is not selected")
+        except SeleniumDrivenUserExpectationsException:
+            pass
+        
+    def SeleniumDrivenUserExpectationsShouldResetOptionBeingHandledAndLastVisitedLocation(self):   
+        self.expectation.shouldSee(Locators.SELECT).withOption(Locators.OPTION1).selected()
+        self.assertTrue(self.seleniumExecutionContext.optionBeingHandled is None)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

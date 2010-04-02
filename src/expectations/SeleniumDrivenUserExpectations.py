@@ -11,11 +11,11 @@ class SeleniumDriverUserExpectations(unittest.TestCase):
         self.originalGoesToMethod = SeleniumDrivenUserActions.goesTo
         self.originalShouldBeOnPage = SeleniumDrivenUserExpectations.shouldBeOnPage       
         self.mockedContext = Mock(spec=["initialize"])
+    
     def tearDown(self):
         SeleniumDrivenUserActions.goesTo = self.originalGoesToMethod  
         SeleniumDrivenUserExpectations.shouldBeOnPage = self.originalShouldBeOnPage  
-
-    
+        
     def SeleniumDrivenUserShouldCallAppropriateActionMethodInExpectationWhenCalledWithAnAction(self):
    
             mockedGoesToURL = Mock()
