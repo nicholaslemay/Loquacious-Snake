@@ -31,7 +31,6 @@ class SeleniumDrivenUserExpectations:
     def shouldNotSee(self, locator):
         if self.getSeleniumInstance().is_element_present(locator):
             raise SeleniumDrivenUserExpectationsException(locator + " was found on the current page.")
-        
     
     @chainable
     @requiresAPreviouslyVisitedLocator

@@ -8,4 +8,4 @@ class Locators(object):
     SELECT = "//select[@id='test_select']"
     OPTION1 = "Option 1"
     OPTION3 = "Option 3"
-    
+    GOOGLE_LINK = "//a[@id='link_to_google']"

@@ -60,3 +60,10 @@ class SeleniumDrivenUserActions:
             raise SeleniumDrivenUserActionsException(option + " option could not be found in " + locator )
         
         self.getSeleniumInstance().select(locator, option)
+
+    @chainable
+    def waitsForPageToLoad(self, timeout=30000):
+        try:
+            self.getSeleniumInstance().wait_for_page_to_load(timeout)
+        except:
+            raise SeleniumDrivenUserActionsException("Timeout reached")

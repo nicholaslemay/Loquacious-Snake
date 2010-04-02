@@ -121,4 +121,12 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         self.expectation.shouldSee(Locators.SELECT).withOption(Locators.OPTION1).selected()
         
 
+    def SeleniumDrivenUserActionsShouldRaiseExceptionWhenWaitsForPageToLoadTimesout(self):
+        self.action.clicks(Locators.GOOGLE_LINK)
+        try:
+            self.action.waitsForPageToLoad(1)
+            self.fail("waitsForPageToLoad should raise exception when it times out.")
+        except SeleniumDrivenUserActionsException:
+            pass
+         
         
