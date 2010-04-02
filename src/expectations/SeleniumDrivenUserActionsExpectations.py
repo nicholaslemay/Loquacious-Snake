@@ -51,7 +51,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
         
         try:
             self.action.withThis("Text")
-            raise Exception("withThis should fail when no location was previously selected")
+            self.fail("withThis should fail when no location was previously selected")
         except (SeleniumDrivenUserActionsException, ), e:
             pass
         
@@ -63,7 +63,7 @@ class SeleniumDrivenUserActionsExpectations(unittest.TestCase):
     def SeleniumDrivenUserActionsShouldRequireLocatorToExistInOrderToAttemptTocheckIt(self):
         try:
             self.action.checks("unknown locator")
-            raise Exception("Checks should raise exception when locator is not found")
+            self.fail("Checks should raise exception when locator is not found")
         except LocatorNotFoundException:
             pass
         

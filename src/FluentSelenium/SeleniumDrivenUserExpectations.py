@@ -44,4 +44,10 @@ class SeleniumDrivenUserExpectations:
         if expectedText != currentText:
             raise SeleniumDrivenUserExpectationsException("Expected text : " + expectedText + " did not match current text : " + currentText)
     
+    @chainable
+    @requiresAPreviouslyVisitedLocator
+    def checked(self):
+        location = self.seleniumExecutionContext.lastVisitedLocation
+        if not self.getSeleniumInstance().is_checked(location):
+            raise SeleniumDrivenUserExpectationsException(location + " is not checked.")
     

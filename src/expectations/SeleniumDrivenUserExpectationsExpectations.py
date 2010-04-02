@@ -21,7 +21,8 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         self.seleniumExecutionContext.initialize()
         self.action = SeleniumDrivenUserActions(self.seleniumExecutionContext)
         self.action.goesTo( self.testFileName)
-
+        self.expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
+        
     def tearDown(self):
         pass
     
@@ -29,87 +30,74 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         self.seleniumExecutionContext.destroy()  
         
     def SeleniumDrivenUserExpectationsShouldBeOnPageShouldThrowExceptionWhenContextDoesNotReportWeAreOnThatPage(self):
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
         try:
-            expectation.shouldBeOnPage("http://www.websitethatdoesnotexist.ca")
-            raise Exception("shouldBeOnPage should of raised exception when current location does not match expected page")
+            self.expectation.shouldBeOnPage("http://www.websitethatdoesnotexist.ca")
+            self.fail("shouldBeOnPage should of raised exception when current location does not match expected page")
         except SeleniumDrivenUserExpectationsException:
             pass
 
     def SeleniumDrivenUserExpectationsShouldBeOnPageShouldNotThrowExceptionWhenContextsCurrentLocationDoesMatchThePageWeExpect(self):
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
-        expectation.shouldBeOnPage(self.testFileName)
+        self.expectation.shouldBeOnPage(self.testFileName)
         
     def SeleniumDrivenUserExpectationsShouldSeeShouldUpdateTheLastVisitedLocation(self):
         self.seleniumExecutionContext.setLastVisitedLocation = Mock()
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
-        expectation.shouldSee(Locators.INPUT_TEXT)        
+        self.expectation.shouldSee(Locators.INPUT_TEXT)        
         self.assertTrue(self.seleniumExecutionContext.setLastVisitedLocation.called)
     
     def SeleniumDrivenUserExpectationsShouldSeeShouldThrowAnExceptionWhenLocatorDoesNotExistOnPage(self):
         self.seleniumExecutionContext.setLastVisitedLocation = Mock()
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
 
         try:
-            expectation.shouldSee("locator that does not exist")  
-            raise Exception("Should see should raise exception when locator does not exist")
+            self.expectation.shouldSee("locator that does not exist")  
+            self.fail("Should see should raise exception when locator does not exist")
         except LocatorNotFoundException:
             pass
     
     def SeleniumDrivenUserExpectationsShouldNotSeeShouldUpdateTheLastVisitedLocationToNone(self):
-        self.seleniumExecutionContext.setLastVisitedLocation = Mock()
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
-        expectation.shouldNotSee("Locator of element that is not present")        
+        self.seleniumExecutionContext.setLastVisitedLocation = Mock()        
+        self.expectation.shouldNotSee("Locator of element that is not present")        
         self.assertEquals(self.seleniumExecutionContext.setLastVisitedLocation.call_args,((None,),{}))
         
     def SeleniumDrivenUserExpectationsShouldNotSeeShouldRaiseExceptionWhenelementIsPresent(self):    
         self.seleniumExecutionContext.setLastVisitedLocation = Mock()
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
-
+        
         try:
-            expectation.shouldNotSee(Locators.INPUT_TEXT)  
-            raise Exception("shouldNotSee should raise exception when locator exists")
+            self.expectation.shouldNotSee(Locators.INPUT_TEXT)  
+            self.fail("shouldNotSee should raise exception when locator exists")
         except SeleniumDrivenUserExpectationsException:
             pass
         
         
     def SeleniumDrivenUserExpectationsShouldRaiseExceptionWhenLocatorIsNotFoundWhenWithValueIsCalled(self):
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
         try:
-            expectation.withValue("Paul")
-            raise Exception("WithValue should raise exception when locator does exists")
+            self.expectation.withValue("Paul")
+            self.fail("WithValue should raise exception when locator does exists")
         except LocatorNotFoundException:
             pass
     
     def SeleniumDrivenUserExpectationsShouldRaiseWhenItDoesNotContainSpecifiedValue(self):
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
-        
         try:
-            expectation.shouldSee(Locators.INPUT_TEXT).withValue("Not the right value")
-            raise Exception("withValue should raise exception when values do not match")
+            self.expectation.shouldSee(Locators.INPUT_TEXT).withValue("Not the right value")
+            self.fail("withValue should raise exception when values do not match")
         except SeleniumDrivenUserExpectationsException:
             pass
         
     def SeleniumDrivenUserExpectationsShouldReturnChainingElementWhenValueIsTheOneExpected(self):
         textToType = "Awesome"
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
         self.action.fillsOut(Locators.INPUT_TEXT).withThis(textToType)
-        self.assertTrue(expectation.chainingElement is expectation.shouldSee(Locators.INPUT_TEXT).withValue(textToType))
+        self.assertTrue(self.expectation.chainingElement is self.expectation.shouldSee(Locators.INPUT_TEXT).withValue(textToType))
     
     def SeleniumDrivenUserExpectationsShouldRaiseExceptionWhenLocatorIsNotFoundWhenWithTextIsCalled(self):
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
         try:
-            expectation.withText("Text")
-            raise Exception("WithText should raise exception when locator does exists")
+            self.expectation.withText("Text")
+            self.fail("WithText should raise exception when locator does exists")
         except LocatorNotFoundException:
             pass
     
     def SeleniumDrivenUserExpectationsShouldRaiseWhenItDoesNotContainSpecifiedText(self):
-        expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
-        
         try:
-            expectation.shouldSee(Locators.SPAN).withText("Text that is not there")
-            raise Exception("withText should raise exception when values do not match")
+            self.expectation.shouldSee(Locators.SPAN).withText("Text that is not there")
+            self.fail("withText should raise exception when values do not match")
         except SeleniumDrivenUserExpectationsException:
             pass
     
@@ -117,6 +105,23 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
         expectation = SeleniumDrivenUserExpectations(self.seleniumExecutionContext)
         self.assertTrue(expectation.chainingElement is expectation.shouldSee(Locators.SPAN).withText("Text")) 
         
+    def SeleniumDrivenUserExpectationsShouldThrowAnExceptionWhenCheckedIsCalledwithoutAPreviouslyVisitedLocator(self):
+        try:
+            self.expectation.checked()
+            self.fail("Checked should raise exception when locator does exists")
+        except LocatorNotFoundException:
+            pass
+        
+    def SeleniumDrivenUserExpectationsShouldThrowAnExceptionWhenCheckedIsCalledOnAnItemThatIsNotChecked(self):
+        try:
+            self.expectation.shouldSee(Locators.CHECKBOX).checked()
+            self.fail("Checked should raise exception when locator is not checked")
+        except SeleniumDrivenUserExpectationsException:
+            pass
+        
+    def SeleniumDrivenUserExpectationsShouldReturnChainingElementWhenCheckedSucceeds(self):
+        self.action.checks(Locators.CHECKBOX)
+        self.assertTrue(self.expectation.shouldSee(Locators.CHECKBOX).checked() is self.expectation.chainingElement)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

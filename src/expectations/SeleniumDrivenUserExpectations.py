@@ -42,7 +42,7 @@ class SeleniumDriverUserExpectations(unittest.TestCase):
         try:
             bob = SeleniumDrivenUser(self.mockedContext)
             bob.unknownMethodCall()
-            raise Exception("unknownMethodCall should of raised an exception")
+            self.fail("unknownMethodCall should of raised an exception")
         except Exception, instance:
             pass
           
