@@ -5,14 +5,14 @@ The work done here is heavily inspired by the SUTA project for PHP http://github
 The intent is on making end-to-end testing or acceptance testing as easy as possible to read and write  for developers and people with basic programming skills. This is done to facilitate the integration of testers and Product Owners in the work done by developers in order to allow them to be able write the tests together and have an artifact that everybody can understand and discuss upon.
 
 Example : 
-First, lest<s take this fictuous user story 
+First, lest's take this fictitious user story 
 
 As a User 
 I want to be able to consult my account
 In order to see my current invoice.
 
 Conditions Of Succes:
-The page is avaible only for registered users.
+The page is available only for registered users.
 The page is accessible through the /myAccount URL
 The Page displays the current invoice total
 
