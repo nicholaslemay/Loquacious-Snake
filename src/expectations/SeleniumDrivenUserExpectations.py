@@ -1,7 +1,7 @@
 from mock import Mock
-from FluentSelenium.SeleniumDrivenUser import SeleniumDrivenUser
-from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
-from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations
+from LoquaciousSnake.SeleniumDrivenUser import SeleniumDrivenUser
+from LoquaciousSnake.SeleniumDrivenUserActions import SeleniumDrivenUserActions
+from LoquaciousSnake.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations
 import unittest
 
 

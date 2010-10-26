@@ -1,7 +1,7 @@
-from FluentSelenium.helpers.Decorators import chainable,\
+from LoquaciousSnake.helpers.Decorators import chainable,\
     requiresPresenceOfLocator, requiresAPreviouslySelectedOption,\
     resetsLastVisitedLocator, requiresAPreviouslyVisitedLocator
-from FluentSelenium.helpers.JavascriptHelper import JavascriptHelper
+from LoquaciousSnake.helpers.JavascriptHelper import JavascriptHelper
 
 class SeleniumDrivenUserActionsException(Exception):
     pass

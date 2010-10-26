@@ -1,5 +1,5 @@
-from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions
-from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations
+from LoquaciousSnake.SeleniumDrivenUserActions import SeleniumDrivenUserActions
+from LoquaciousSnake.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations
 
 
 class UnknownMethodException(Exception):

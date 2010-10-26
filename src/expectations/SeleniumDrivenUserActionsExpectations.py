@@ -1,11 +1,11 @@
-from FluentSelenium.SeleniumDrivenUserActions import SeleniumDrivenUserActions,\
+from LoquaciousSnake.SeleniumDrivenUserActions import SeleniumDrivenUserActions,\
     SeleniumDrivenUserActionsException
-from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
+from LoquaciousSnake.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
 from expectations.testWebsite.Locators import Locators
 from mock import Mock
-from FluentSelenium.helpers.Decorators import LocatorNotFoundException
-from FluentSelenium.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations
-from FluentSelenium.helpers.JavascriptHelper import JavascriptHelper
+from LoquaciousSnake.helpers.Decorators import LocatorNotFoundException
+from LoquaciousSnake.SeleniumDrivenUserExpectations import SeleniumDrivenUserExpectations
+from LoquaciousSnake.helpers.JavascriptHelper import JavascriptHelper
 from selenium import selenium
 import os
 import unittest

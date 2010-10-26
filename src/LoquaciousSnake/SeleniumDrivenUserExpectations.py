@@ -1,4 +1,4 @@
-from FluentSelenium.helpers.Decorators import chainable, requiresPresenceOfLocator, requiresAPreviouslyVisitedLocator,\
+from LoquaciousSnake.helpers.Decorators import chainable, requiresPresenceOfLocator, requiresAPreviouslyVisitedLocator,\
     requiresAPreviouslySelectedOption, resetsOptionBeingHandled,\
     resetsLastVisitedLocator
 

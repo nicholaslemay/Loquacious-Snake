@@ -1,4 +1,4 @@
-from FluentSelenium.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
+from LoquaciousSnake.SharedSeleniumExecutionContext import SharedSeleniumExecutionContext
 import unittest
 from mock import Mock
 from selenium import selenium
