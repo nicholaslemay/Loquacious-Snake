@@ -1,9 +1,9 @@
 from LoquaciousSnake.helpers.Decorators import chainable, requiresPresenceOfLocator, requiresAPreviouslyVisitedLocator,\
-    requiresAPreviouslySelectedOption, resetsOptionBeingHandled,\
-    resetsLastVisitedLocator
+    requiresAPreviouslySelectedOption
 
 class SeleniumDrivenUserExpectationsException(Exception):
     pass
+
 
 class SeleniumDrivenUserExpectations:
       
@@ -16,7 +16,6 @@ class SeleniumDrivenUserExpectations:
         return self.seleniumExecutionContext.seleniumInstance
     
     @chainable
-    @resetsLastVisitedLocator
     def shouldBeOnPage(self, page):
         currentLocation = self.getSeleniumInstance().get_location()
         if currentLocation != page:
@@ -28,13 +27,19 @@ class SeleniumDrivenUserExpectations:
         self.seleniumExecutionContext.setLastVisitedLocation(locator)
     
     @chainable
+    @requiresAPreviouslyVisitedLocator
+    def followedBy(self,locator):
+        if not self.getSeleniumInstance().is_ordered(self.seleniumExecutionContext.lastVisitedLocation, locator):
+            raise SeleniumDrivenUserExpectationsException("Expected this locator : " + locator + " to follow this locator : " + self.seleniumExecutionContext.lastVisitedLocation + " but it did not")
+        self.seleniumExecutionContext.setLastVisitedLocation(locator)
+        
+    @chainable
     def shouldNotSee(self, locator):
         if self.getSeleniumInstance().is_element_present(locator):
             raise SeleniumDrivenUserExpectationsException(locator + " was found on the current page.")
     
     @chainable
     @requiresAPreviouslyVisitedLocator
-    @resetsLastVisitedLocator
     def withValue(self, expectedValue): 
         currentValue = self.getSeleniumInstance().get_value(self.seleniumExecutionContext.lastVisitedLocation)
         if expectedValue != currentValue:
@@ -42,7 +47,6 @@ class SeleniumDrivenUserExpectations:
     
     @chainable
     @requiresAPreviouslyVisitedLocator
-    @resetsLastVisitedLocator
     def withText(self, expectedText):
         currentText = self.getSeleniumInstance().get_text((self.seleniumExecutionContext.lastVisitedLocation))
         if expectedText != currentText:
@@ -50,7 +54,6 @@ class SeleniumDrivenUserExpectations:
     
     @chainable
     @requiresAPreviouslyVisitedLocator
-    @resetsLastVisitedLocator
     def checked(self):
         location = self.seleniumExecutionContext.lastVisitedLocation
         if not self.getSeleniumInstance().is_checked(location):
@@ -58,7 +61,6 @@ class SeleniumDrivenUserExpectations:
     
     @chainable
     @requiresAPreviouslyVisitedLocator
-    @resetsLastVisitedLocator
     def unchecked(self):
         location = self.seleniumExecutionContext.lastVisitedLocation
         if self.getSeleniumInstance().is_checked(location):
@@ -72,7 +74,6 @@ class SeleniumDrivenUserExpectations:
     @chainable
     @requiresAPreviouslyVisitedLocator
     @requiresAPreviouslySelectedOption
-    @resetsOptionBeingHandled
     def selected(self):
         optionExpectedToBeSelected = self.seleniumExecutionContext.optionBeingHandled
         currentlySelectedOption = self.getSeleniumInstance().get_selected_label(self.seleniumExecutionContext.lastVisitedLocation)

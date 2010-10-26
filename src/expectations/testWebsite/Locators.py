@@ -11,3 +11,7 @@ class Locators(object):
     GOOGLE_LINK = "//a[@id='link_to_google']"
     PROTOTYPE_LINK = "//a[@id='test_Prototype_link']"
     JQUERY_LINK ="//a[@id='test_jQuery_link']"
+    LIST_ITEM1 = "css=#listItem1"
+    LIST_ITEM2 = "css=#listItem2"
+    LIST_ITEM3 = "css=#listItem3"
+    

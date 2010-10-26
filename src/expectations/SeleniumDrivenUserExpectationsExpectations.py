@@ -171,11 +171,23 @@ class SeleniumDrivenUserExpectationsExpectations(unittest.TestCase):
             self.fail("selected should trhow an exception when the expected option is not selected")
         except SeleniumDrivenUserExpectationsException:
             pass
+                
+    def SeleniumDrivenUserExpectationsShouldRaiseAnExceptionWhenItExpectsAnItemToFollowanotherAndNoPreviousElementWasSelected(self):
+        try:
+            self.expectation.followedBy(Locators.SELECT)
+        except LocatorNotFoundException:
+            pass
         
-    def SeleniumDrivenUserExpectationsShouldResetOptionBeingHandledAndLastVisitedLocation(self):   
-        self.expectation.shouldSee(Locators.SELECT).withOption(Locators.OPTION1).selected()
-        self.assertTrue(self.seleniumExecutionContext.optionBeingHandled is None)
-        
+    def SeleniumDrivenUserExpectationsShouldRaiseAnExceptionWhenItExpectsAnItemToFollowAnotherAndTheItemDoesNotFollowIt(self):
+        try:
+            self.expectation.shouldSee(Locators.LIST_ITEM3).followedBy(Locators.LIST_ITEM1) 
+        except: 
+            pass
+    def SeleniumDrivenUserExpectationsShouldNotAnyExceptionWhenItExpectsAnItemToFollowAnotherAndTheItemDoFollowEachOther(self):
+        self.expectation.shouldSee(Locators.LIST_ITEM1).withText("item1")\
+                        .followedBy(Locators.LIST_ITEM2).withText("item2")\
+                        .followedBy(Locators.LIST_ITEM3).withText("item3")
+    
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
